@@ -16,7 +16,29 @@ const sidebarTemplate=document.getElementById('sidebar-template').innerHTML
 //options
 const {username,room} = Qs.parse(location.search, { ignoreQueryPrefix: true })
 
-//autoscrolling
+//-----------------------------autoscrolling---------------------------------
+
+/*                                   Working:-
+role of variables:-
+1)visibleHeight=msgs.offsetHeight :- takes the height of the visible area or screen
+2)msgs.scrollTop:- it takes the value equals to the area we scrolled down i.e. the hidden msg area at top due to
+scrolling the screen downward.
+3)const scrollOffset=Math.ceil(msgs.scrollTop)+visibleHeight :-the value of area or screen hidden at top due to 
+scrolling and the screen visible to us.
+4)newMessageHeight=newMessage.offsetHeight+newMessageMargin :- height of new msg that comes as it also has marginDown
+so we added this also. note-msgs div dont have any marign a single msg has margin so we added only there.
+5)const containerHeight=msgs.scrollHeight :-value of the whole msg screen even it inclued the screen hidden at top or
+bottom.
+
+objective:-we want to autoscrolling when the scrollbars is at bottom of the screen otherwise we don't want that
+to provide user the ease to search old msgs.
+
+logic :- since we want to run our function when scrollbar is at bottom ,so when new msg comes we want to scroll to 
+bottom ,so at this point scroll will at height just above the new msg so if the total height minus new msg height
+should equal to(or may be slightly less than) the visible height plus the height hidden due to scrolling if this 
+is true than before the new msg comes the scroll bar must at bottom and now after coming of new msg it will be 
+scrolled to bottom.
+ */
 const autoscroll=()=>{
     //New message element
     const newMessage=msgs.lastElementChild
@@ -33,9 +55,18 @@ const autoscroll=()=>{
     const containerHeight=msgs.scrollHeight
 
     //how far have i scrolled?
-    const scrollOffset=msgs.scrollTop+visibleHeight
+    const scrollOffset=Math.ceil(msgs.scrollTop)+visibleHeight  /*used ceil value as after sending some msgs the 
+    auto scrolling was not working becoz the scrollTop() lags by some value in points after few msgs when it becomes
+    equals to one it reduces the scrollOffset than containerHeight-newMessageHeight and stop perforing the 
+    autscrolling. by taking the ceil value it will never legs in poits and scrollOffset remains always greater
+    than containerHeight-newMessageHeight*/
 
-     if(containerHeight-newMessageHeight<=scrollOffset){
+     if(containerHeight-newMessageHeight<=(scrollOffset+newMessageHeight)){ /*i added the new msg height with
+        scrollMessageHeight as i just realised what if i accediently just scrooled up the scroll bar from bottom
+        by a slight amount than it will behave like i want to see some old msg but reality is in that small value 
+        i cann't see the old msgs it must be a accident but it will stop our autoscoling user have to set it to 
+        bottom by him self so i made that if screen is scrooled up by amount of a single msg than it auto scrolling
+        should work just like whats app! */
          
         msgs.scrollTop=msgs.scrollHeight
     }
