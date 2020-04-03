@@ -113,17 +113,39 @@ button:disabled {
 }
 
 /* Message Styles */
-
+.admin-message{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 16px; 
+}
+.my-message{
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    margin-bottom: 16px; 
+}
 .message {
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
     margin-bottom: 16px;   
+}
+.msg-container{
+    max-width: 30%;
+    word-wrap:break-word;
 }
 
 .message__name {
+    font-weight:600;
+    font-size: 14px;
+    margin-left: 8px;
+}
+.my__message__name {
     font-weight: 600;
     font-size: 14px;
     margin-right: 8px;
 }
-
 .message__meta {
     color: #777;
     font-size: 14px;

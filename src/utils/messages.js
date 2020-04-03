@@ -1,15 +1,17 @@
-const generateMessage=(username,text)=>{
+const generateMessage=(username,text,flag)=>{
     return{
         username,
         text,
-        createdAt:new Date().getTime()
+        createdAt:new Date().getTime(),
+        flag
     }
 }
-const generateLocationMessage=(username,url)=>{
+const generateLocationMessage=(username,url,flag)=>{
     return{
         username,
         url,
-        createdAt:new Date().getTime()
+        createdAt:new Date().getTime(),
+        flag
     }
 }
 module.exports={

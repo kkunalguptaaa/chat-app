@@ -4,7 +4,7 @@ const express=require('express')
 const socketio=require('socket.io')
 const Filter=require('bad-words')
 const {generateMessage,generateLocationMessage}=require('./utils/messages')
-const {addUser,removeUser,getUser,getUsersInRoom}=require('./utils/users')
+const {addUser,removeUser,getUser,getUsersInRoom,resetFlag}=require('./utils/users')
 
 const app=express()
 const server=http.createServer(app)     /*here we created the server and passed our app to it, normally this done
@@ -30,11 +30,9 @@ const publicDirectoryPath=path.join(__dirname,'../public')
 //servingup the public directory
 app.use(express.static(publicDirectoryPath))
 
-//let count=0
 io.on('connection',(socket)=>{
 
     console.log('New web socket connection!')
-
     socket.on('join',({username,room},callback)=>{
         const {error,user}=addUser({id:socket.id,username,room})
         if(error){
@@ -42,8 +40,8 @@ io.on('connection',(socket)=>{
         }
         socket.join(user.room)
 
-        socket.emit('msg',generateMessage('Admin','Welcome!'))
-        socket.broadcast.to(user.room).emit('msg',generateMessage('Admin',`${user.username} has joined!`))
+        socket.emit('adminMsg',generateMessage('','Welcome!'))
+        socket.broadcast.to(user.room).emit('adminMsg',generateMessage('',`${user.username} has joined!`))
         callback()
         io.to(user.room).emit('roomData',{
             room:user.room,
@@ -53,19 +51,22 @@ io.on('connection',(socket)=>{
 
     socket.on('sendMsg',(msg,callback)=>{
         const user=getUser(socket.id)
+        user.flag++
+        resetFlag(socket.id)
         const filter=new Filter()
         if(filter.isProfane(msg)){            
-            io.to(user.room).emit('msg',generateMessage(user.username,"*****"))
+            io.to(user.room).emit('msg',generateMessage(user.username,"*****",user.flag))
             return callback('Profanity is not allowed!')
         }
-        io.to(user.room).emit('msg',generateMessage(user.username,msg))
+        socket.broadcast.to(user.room).emit('msg',generateMessage(user.username,msg,user.flag))
+        socket.emit('myMsg',generateMessage(user.username,msg,user.flag))
         callback()
     })
 
     socket.on('disconnect',()=>{
         const user=removeUser(socket.id)
         if(user){
-            io.to(user.room).emit('msg',generateMessage('Admin',`${user.username} has left!`))
+            io.to(user.room).emit('adminMsg',generateMessage('',`${user.username} has left!`))
             io.to(user.room).emit('roomData',{
                 room:user.room,
                 users:getUsersInRoom(user.room)
@@ -75,7 +76,10 @@ io.on('connection',(socket)=>{
 
     socket.on('sendLocation',(url,callback)=>{
         const user=getUser(socket.id)
-        io.to(user.room).emit('locationMsg',generateLocationMessage(user.username,url))
+        user.flag++
+        resetFlag(socket.id)
+        socket.emit('myLocationMsg',generateLocationMessage(user.username,url,user.flag))
+        socket.broadcast.to(user.room).emit('locationMsg',generateLocationMessage(user.username,url,user.flag))
         callback()
        
     })

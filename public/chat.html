@@ -3,6 +3,7 @@
     <head>
         <link rel="icon" href="./img/favicon.png">
         <link rel="Stylesheet" href="./css/styles.css">
+   
     </head>
     <body>
         <div class="chat">
@@ -13,31 +14,66 @@
                 <div class="compose">
                     <form id="messageForm">
                         <input placeholder="Message" id="input"  autocomplete="off">
-                        <button  id="messageFormButton" >Send</button>
+                        <button  id="messageFormButton">Send</button>
                     </form>
                     <button id="send-location">Send location</button>
                 </div>
             </div>
         </div>
        
+        <script id="admin-msg-template" type="text/html">
+            <div  class="admin-message">
+                <div class="msg-container">
+                    <p>
+                        <span class="message__name">{{username}}</span>
+                        <span class="message__meta">{{createdAt}}</span>
+                    </p>
+                    <p> {{msg}}</p>
+                </div>
+            </div>
+        </script>
         <script id="msg-template" type="text/html">
             <div class="message">
-                <p>
-                    <span class="message__name">{{username}}</span>
-                    <span class="message__meta">{{createdAt}}</span>
-                </p>
-                <p> {{msg}}</p>
+                <div class="msg-container">
+                    <p>
+                        <span class="message__meta">{{createdAt}}</span>
+                        <span class="message__name">{{username}}</span> 
+                    </p>
+                    <p> {{msg}}</p>
+                </div>
+            </div>
+        </script>
+        <script id="my-msg-template" type="text/html">
+            <div class="my-message">
+                <div class="msg-container">
+                    <p>
+                        <span class="my__message__name">{{username}}</span>
+                        <span class="message__meta">{{createdAt}}</span>
+                    </p>
+                    <p> {{msg}}</p>
+                </div>
             </div>
         </script>
         <script id="location-msg-template" type="text/html">
             <div class="message">
-                <p>
-                    <span class="message__name">{{username}}</span>
-                    <span class="message__meta">{{createdAt}}</span>
-                </p>
-                <p> {{msg}}</p>
-                
-                <p><a href="{{url}}" target="_blank">My Current Location.</a></p>    
+                <div class="msg-container">
+                    <p>
+                        <span class="message__meta">{{createdAt}}</span>
+                        <span class="message__name">{{username}}</span>
+                    </p>            
+                    <p><a href="{{url}}" target="_blank">My Current Location.</a></p>  
+                </div>
+            </div>
+        </script>
+        <script id="my-location-msg-template" type="text/html">
+            <div class="my-message">
+                <div class="msg-container">
+                    <p>
+                        <span class="message__name">{{username}}</span>
+                        <span class="message__meta">{{createdAt}}</span>
+                    </p>            
+                    <p><a href="{{url}}" target="_blank">My Current Location.</a></p>  
+                </div>
             </div>
         </script>
         <script id="sidebar-template" type="text/html">
@@ -45,7 +81,7 @@
             <h2 class="list-title">Users</h2>
             <ul class="users">
                 {{#users}}
-                    <li>{{username}}</li>
+                    <li><img width="12px" src="./img/favicon.png"> {{username}}</li>
                 {{/users}}
             </ul>
         </script>

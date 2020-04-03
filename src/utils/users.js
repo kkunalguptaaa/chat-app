@@ -2,7 +2,7 @@ users=[]    //users is array storing users
 
 //user->{id,username,room}
 //----------------addUser()---------------------------
-const addUser=({id,username,room})=>{
+const addUser=({id,username,room,flag})=>{
 
     //clean the data
    username= username.trim().toLowerCase()
@@ -27,7 +27,8 @@ const addUser=({id,username,room})=>{
     const user={
         id,
         username,
-        room
+        room,
+        flag:0
     }
     users.push(user)
     return({user})
@@ -61,9 +62,22 @@ const getUsersInRoom=(room)=>{
     })
     return(usersArray)
 }
+
+//------------------reset flag value of all users except the current connection user-----------
+const resetFlag=(id)=>{
+    users.filter((user)=>{
+        if(user.id!=id){
+            user.flag=0
+        }
+        return true
+    })
+
+}
+
  module.exports={
      addUser,
      removeUser,
      getUser,
-     getUsersInRoom
+     getUsersInRoom,
+     resetFlag
  }

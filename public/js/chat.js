@@ -9,8 +9,11 @@ const msgs=document.getElementById('msgs')
 const sidebar=document.getElementById('sidebar')
 
 //selecting templates
+const adminMsgTemplate=document.getElementById('admin-msg-template').innerHTML
 const msgTemplate=document.getElementById('msg-template').innerHTML
+const myMsgTemplate=document.getElementById('my-msg-template').innerHTML
 const locationMsgTemplate=document.getElementById('location-msg-template').innerHTML
+const myLocationMsgTemplate=document.getElementById('my-location-msg-template').innerHTML
 const sidebarTemplate=document.getElementById('sidebar-template').innerHTML
 
 //options
@@ -72,10 +75,9 @@ const autoscroll=()=>{
     }
 }
 
-
-socket.on('msg',(msg)=>{
+socket.on('adminMsg',(msg)=>{
     console.log(msg)
-    const html=Mustache.render(msgTemplate,{
+    const html=Mustache.render(adminMsgTemplate,{
         username:msg.username,
         msg:msg.text,
         createdAt: moment(msg.createdAt).format('h:mm a')
@@ -83,23 +85,94 @@ socket.on('msg',(msg)=>{
     msgs.insertAdjacentHTML('beforeend',html)
     autoscroll()
 })
-socket.on('locationMsg',(msg)=>{
+
+socket.on('msg',(msg)=>{
     console.log(msg)
-    const html=Mustache.render(locationMsgTemplate,{
-        username:msg.username,
-        url:msg.url,
-        createdAt:moment(msg.createdAt).format('h:mm a')
-    })
-    msgs.insertAdjacentHTML('beforeend',html)
+    if(msg.flag===1){
+        const html=Mustache.render(msgTemplate,{
+            username:msg.username,
+            msg:msg.text,
+            createdAt: moment(msg.createdAt).format('h:mm a')
+        })
+        msgs.insertAdjacentHTML('beforeend',html)
+    }
+    else{
+        const html=Mustache.render(msgTemplate,{
+            username:"",
+            msg:msg.text,
+            createdAt: moment(msg.createdAt).format('h:mm a')
+        })
+        msgs.insertAdjacentHTML('beforeend',html)
+    }
     autoscroll()
 })
-
+socket.on('myMsg',(msg)=>{
+    console.log(msg)
+    if(msg.flag===1){
+        const html=Mustache.render(myMsgTemplate,{
+            username:"me",
+            msg:msg.text,
+            createdAt: moment(msg.createdAt).format('h:mm a')
+        })
+        msgs.insertAdjacentHTML('beforeend',html)
+    }
+    else{
+        const html=Mustache.render(myMsgTemplate,{
+            username:"",
+            msg:msg.text,
+            createdAt: moment(msg.createdAt).format('h:mm a')
+        })
+        msgs.insertAdjacentHTML('beforeend',html)
+    }
+    autoscroll()
+})
+socket.on('locationMsg',(msg)=>{
+    console.log(msg)
+    if(msg.flag===1){
+        const html=Mustache.render(locationMsgTemplate,{
+            username:msg.username,
+            url:msg.url,
+            createdAt:moment(msg.createdAt).format('h:mm a')
+        })
+        msgs.insertAdjacentHTML('beforeend',html)
+    }
+    else{
+        const html=Mustache.render(locationMsgTemplate,{
+            username:"",
+            url:msg.url,
+            createdAt:moment(msg.createdAt).format('h:mm a')
+        })
+        msgs.insertAdjacentHTML('beforeend',html)
+    }
+    autoscroll()
+})
+socket.on('myLocationMsg',(msg)=>{
+    console.log(msg)
+    if(msg.flag===1){
+        const html=Mustache.render(myLocationMsgTemplate,{
+            username:"me",
+            url:msg.url,
+            createdAt:moment(msg.createdAt).format('h:mm a')
+        })
+        msgs.insertAdjacentHTML('beforeend',html)
+    }
+    else{
+        const html=Mustache.render(myLocationMsgTemplate,{
+            username:"",
+            url:msg.url,
+            createdAt:moment(msg.createdAt).format('h:mm a')
+        })
+        msgs.insertAdjacentHTML('beforeend',html)
+    }
+    autoscroll()
+})
 socket.on('roomData',({room,users})=>{
     const html=Mustache.render(sidebarTemplate,{
         room,
         users
     })
     sidebar.innerHTML=html
+    autoscroll()
 })
 
 messageForm.addEventListener('submit',(e)=>{
