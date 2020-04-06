@@ -2,7 +2,8 @@
 <html>
     <head>
         <link rel="icon" href="./img/favicon.png">
-        <link rel="Stylesheet" href="./css/styles.css">
+        <link rel="Stylesheet" href="./css/styles.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
    
     </head>
     <body>
@@ -25,10 +26,9 @@
             <div  class="admin-message">
                 <div class="msg-container">
                     <p>
-                        <span class="message__name">{{username}}</span>
                         <span class="message__meta">{{createdAt}}</span>
                     </p>
-                    <p> {{msg}}</p>
+                    <p class="msg-box admin-msg-box"> {{msg}}</p>
                 </div>
             </div>
         </script>
@@ -36,10 +36,10 @@
             <div class="message">
                 <div class="msg-container">
                     <p>
-                        <span class="message__meta">{{createdAt}}</span>
                         <span class="message__name">{{username}}</span> 
+                        <span class="message__meta">{{createdAt}}</span>
                     </p>
-                    <p> {{msg}}</p>
+                    <p class="msg-box other-msg-box"> {{msg}}</p>
                 </div>
             </div>
         </script>
@@ -47,10 +47,10 @@
             <div class="my-message">
                 <div class="msg-container">
                     <p>
+                        <span class="my__message__meta">{{createdAt}}</span>
                         <span class="my__message__name">{{username}}</span>
-                        <span class="message__meta">{{createdAt}}</span>
                     </p>
-                    <p> {{msg}}</p>
+                    <p class="msg-box my-msg-box"> {{msg}}</p>
                 </div>
             </div>
         </script>
@@ -58,10 +58,10 @@
             <div class="message">
                 <div class="msg-container">
                     <p>
-                        <span class="message__meta">{{createdAt}}</span>
                         <span class="message__name">{{username}}</span>
+                        <span class="message__meta">{{createdAt}}</span>
                     </p>            
-                    <p><a href="{{url}}" target="_blank">My Current Location.</a></p>  
+                    <p class="msg-box other-msg-box"><a href="{{url}}" target="_blank">My Current Location.</a></p>  
                 </div>
             </div>
         </script>
@@ -69,10 +69,10 @@
             <div class="my-message">
                 <div class="msg-container">
                     <p>
-                        <span class="message__name">{{username}}</span>
-                        <span class="message__meta">{{createdAt}}</span>
+                        <span class="my__message__meta">{{createdAt}}</span>
+                        <span class="my__message__name">{{username}}</span>
                     </p>            
-                    <p><a href="{{url}}" target="_blank">My Current Location.</a></p>  
+                    <p class="msg-box my-msg-box"><a href="{{url}}" target="_blank">My Current Location.</a></p>  
                 </div>
             </div>
         </script>
