@@ -13,7 +13,8 @@
     "bad-words": "^3.0.3",
     "express": "^4.17.1",
     "qs": "^6.9.3",
-    "socket.io": "^2.3.0"
+    "socket.io": "^4.1.2",
+    "xmlhttprequest-ssl": "^1.6.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
