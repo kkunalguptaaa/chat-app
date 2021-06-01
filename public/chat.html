@@ -3,26 +3,42 @@
     <head>
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <link rel="icon" href="./img/favicon.png">
-        <link rel="Stylesheet" href="./css/styles.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="Stylesheet" href="./css/styles.min.css">
+        <style type="text/css">
+             @media(max-width:768px){
+                .chat__sidebar{
+                    display: none;
+                }
+                .chat__main{
+                    width:100%;
+                    display: flex;
+                    flex-grow: 1;
+                    flex-direction: column;
+                    height: 100vh;
+                    max-height: 100vh;
+                }
+            }
+        </style>
     </head>
     <body>
-        <div class="container"></div>
-        <div class="chat">
-            <div id="sidebar" class="chat__sidebar"></div>
-            <div class="chat__main">
-                <div id="msgs" class="chat__messages"></div>
-
-                <div class="compose">
-                    <form id="messageForm">
-                        <input placeholder="Message" id="input"  autocomplete="off">
-                        <button  id="messageFormButton">Send</button>
-                    </form>
-                    <button id="send-location">Send location</button>
+        <div class=" m-0 p-0 container-fluid">
+            <div class="chat row" >
+                <div id="sidebar" class="chat__sidebar  p-0 col-lg-3 col-xl-3 col-md-3"></div>
+                <div class="chat__main  p-0 col-lg-9 col-xl-9 col-md-9">
+                    <div id="msgs" class="chat__messages"></div>
+                    <div class="compose">
+                        <form id="messageForm">
+                            <input placeholder="Message" id="input"  autocomplete="off">
+                            <button  id="messageFormButton">Send</button>
+                        </form>
+                        <button id="send-location">Send location</button>
+                    </div>
                 </div>
             </div>
         </div>
+  
        
         <script id="admin-msg-template" type="text/html">
             <div  class="admin-message">
@@ -102,5 +118,10 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!--------------bootstrap-links-->
+    <!-- <script>
+        if( window.outerWidth<768){
+            document.querySelector('.chat__sidebar').style.display="none"
+        }
+    </script> -->
     </body>
 </html>
